@@ -1,6 +1,6 @@
 .maindiv {
     position: absolute;
-    background-color:black;
+    background-color: black;
     border: 2px solid black;
     height: 650px;
     width: 1360px;
@@ -10,7 +10,7 @@
     /* border: 2px solid black; */
     background-color: white;
     box-shadow: 2px 2px 2px;
-    
+
     height: 642px;
     width: 400px;
 }
@@ -18,7 +18,7 @@
 .chatView {
     /* border: 2px solid red; */
     margin-left: 400px;
-        
+
     margin-top: -642px;
     height: 642px;
     width: 960px;
@@ -27,14 +27,14 @@
 .chathedding {
     margin-left: 120px;
     margin-top: -50px;
-    
+
 }
 
 .textfiled {
-    float: left;
+    /* float: left; */
     margin-left: 3px;
     margin-top: 605px;
-    width: 800px;
+    width: 500px;
 }
 
 .sendbutton {
@@ -45,13 +45,22 @@
     position: absolute;
 
 }
-.text{
-    color:black;
-}
-.text1{
-    color:white;
+
+.text {
+    color: black;
 }
 
-.username{
+.text1 {
+    color: white;
+}
+
+.username {
     cursor: pointer;
+}
+
+.lastDiv {
+    
+    margin-left: -40px;
+    position: fixed;
+    width: 920px;
 }
