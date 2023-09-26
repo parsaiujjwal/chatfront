@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import "./chat.css"
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 
 const Chat = () => {
     const [currentUsers, setCurrentUsers] = useState([]);
@@ -18,15 +18,16 @@ const Chat = () => {
     const selectReceiver = async (userId, userName) => {
         setReceiver(userId);
         setSelectedReceiverName(userName);
-
         try {
-            const response = await axios.get("http://localhost:3000/chat/getMessages", {
-                params:
-                {
-                    receiverId: userId, senderId: sender,
-                },
-            });
-            setMessages(response.data.messages);
+            setInterval(async () => {
+                const response = await axios.get("http://localhost:3000/chat/getMessages", {
+                    params:
+                    {
+                        receiverId: userId, senderId: sender,
+                    },
+                });
+                setMessages(response.data.messages);
+            }, 2000);
         } catch (err) {
             console.log(err);
         }
@@ -75,54 +76,66 @@ const Chat = () => {
             console.log(err);
         }
     }
+    const logout = () => {
+        localStorage.removeItem('user')
+        localStorage.removeItem('token');
+    }
     return (
-        <div className='container-fluid mt-5'>
-            <div className='row'>
-                <div className='col-md-4 line'>
-                    <div className='chat-view'>
-                        <div className='innerDiv'>
-                            <h3 className='text'>Welcome, {CurrentUser}!</h3>
+        <div className="container-fluid mt-5">
+            <div className="row">
+                <div className="col-md-4 chat-sidebar">
+                    {/* Left chat box */}
+                    <div className="chat-view">
+                        <div className="innerDiv bg-info">
+                            <h3 className="text">Welcome, {CurrentUser.charAt(0).toUpperCase() + CurrentUser.slice(1)}!</h3>
                             <hr></hr>
                             <br></br>
-                            <hr className='text' />
-                            <h4 className='chathedding'>Chat Box</h4>
-                            <ul className='list-group'>
+                            <hr className="text" />
+                            <h4 className="chathedding">Chat Box</h4>
+                            <ul className="list-group">
                                 {currentUsers.map((user, index) => (
                                     <li
                                         className={`list-group-item ${user._id === receiver ? 'active' : ''}`}
                                         key={index}
-                                        onClick={() => selectReceiver(user._id, `${user.firstName} ${user.lastName}`)}>
-                                        {user.firstName} {user.lastName}
+                                        onClick={() => selectReceiver(user._id, `${user.firstName} ${user.lastName}`)}
+                                    >
+                                        {user.firstName.toUpperCase()} {user.lastName.toUpperCase()}
                                     </li>
                                 ))}
                             </ul>
-                            <Link to="/" className="btn btn-primary mt-3">Sign Out</Link>
+                            <Link to="/" onClick={logout} className="btn btn-outline-primary mt-3">
+                                Sign Out
+                            </Link>
                         </div>
                     </div>
                 </div>
-                <div className='col-md-8'>
-                    <h2>{selectedReceiverName}</h2>
-                    <hr></hr>
-                    <div className='chat-box'>
-                        <div className="message-display">
-                            {filteredMessages.map((message, index) => (
-                                <div key={index} className="message">
-                                    <strong>{message.sender === sender ? 'You' : selectedReceiverName} : </strong>{message.textmassage}{message.text}
-                                </div>
-                            ))}
-                        </div>
-                        <div className="input-group lastDiv ">
-                            <input type="text" className="form-control" value={textmessage} onChange={(e) => setTextMessage(e.target.value)} placeholder="Enter your message"
-                            />
-                            <div className="input-group-append">
-                                <button type="submit" onClick={sendMassage} className="btn btn-outline-primary"> Send</button>
+                <div></div>
+                <div className="col-md-8 rightbox">
+                    {/* Right chat view */}
+                    <h2>{selectedReceiverName.charAt(0).toUpperCase() + selectedReceiverName.slice(1)}</h2>
+                    <hr className=''></hr>
+                    <div className="message-display" id='flex-container'>
+                        {filteredMessages.map((message, index) => (
+                            <div
+                                key={index}
+                                className={`message ${message.sender === sender ? 'sender-message' : 'receiver-message'}`}>
+                                <strong>{message.sender === sender ? 'You' : selectedReceiverName.charAt(0).toUpperCase() + selectedReceiverName.slice(1)} : </strong>
+                                {message.textmassage}
+                                {message.text}
                             </div>
-                        </div>
+                        ))}
+                    </div>
+
+                    <div className="input-container">
+                        <input type="text" className="form-control message-input"value={textmessage}onChange={(e) => setTextMessage(e.target.value)}
+                            placeholder="Enter your message" /><button type="submit" onClick={sendMassage} className="btn btn-outline-primary send-button"> Send
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     );
-};
+}
+
 
 export default Chat;

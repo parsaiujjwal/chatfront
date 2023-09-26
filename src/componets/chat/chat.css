@@ -1,66 +1,93 @@
-.maindiv {
-    position: absolute;
-    background-color: black;
-    border: 2px solid black;
-    height: 650px;
-    width: 1360px;
-}
+/* Chat.css */
 
-.innerDiv {
-    /* border: 2px solid black; */
-    background-color: white;
-    box-shadow: 2px 2px 2px;
-
-    height: 642px;
-    width: 400px;
-}
-
-.chatView {
-    /* border: 2px solid red; */
-    margin-left: 400px;
-
-    margin-top: -642px;
-    height: 642px;
-    width: 960px;
-}
-
-.chathedding {
-    margin-left: 120px;
-    margin-top: -50px;
-
-}
-
-.textfiled {
-    /* float: left; */
-    margin-left: 3px;
-    margin-top: 605px;
-    width: 500px;
-}
-
-.sendbutton {
-    float: left;
-    width: 140px;
-    margin-left: 10px;
-    margin-top: 605px;
-    position: absolute;
-
-}
-
-.text {
-    color: black;
-}
-
-.text1 {
-    color: white;
-}
-
-.username {
-    cursor: pointer;
-}
-
-.lastDiv {
-    
-    margin-left: -40px;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  .chat-box {
+    display: flex;
+    max-width: 800px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chat-sidebar {
+    flex: 1;
+    z-index: 1;
+    top: 0;
+    left: 0;    
+    color: #fff;
+    padding: 20px;
     position: fixed;
-    width: 920px;
-}
+    overflow-y: auto;
+    overflow-x: hidden; 
+  }
+  
+  .chat-view {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  #flex-container > div {
+    flex: 1;
+    height: 40px;
+  }
+  .message-display{
+    flex-grow: 1;
+    height: 600px;
+  }
+  .heading{
+    flex: 1;
+    z-index: 1;
+    top: 0;
+    /* color: #fff;  */
+    padding: 20px;
+    margin-left: 450px;
+    position: fixed;
+    overflow-y: auto;
+    overflow-x: hidden; 
+    /* width: 600px;  */
+  }
+  
+  .input-container {
+    flex: 1;
+    z-index: 1;
+    top: 0;
+    margin-top: 550px;    
+    color: #fff;
+    padding: 20px;
+    position: fixed;
+    overflow-y: auto;
+    overflow-x: hidden; 
+    width: 600px;
+  }
+  
+  .message-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  .sender-message {
+    text-align: right;
+    /* background-color: #ADD8E6; */
+    margin-right: 30px; 
+    color: black;
+  }
+  .receiver-message {
+    text-align: left;
+    margin-left: 10px;  
+    color: #000; 
+  }
+  
+  .rightbox{
+    margin-left: 450px;
+  }
