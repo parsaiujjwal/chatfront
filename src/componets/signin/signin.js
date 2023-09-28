@@ -79,7 +79,6 @@ function SignIn() {
             if (response.data.status) {
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 localStorage.setItem("token", JSON.stringify(response.data.token));
-                alert("Sign in done");
                 toast.success('Success Notification !', {
                     position: toast.POSITION.TOP_CENTER
                 });

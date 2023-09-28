@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import "./chat.css"
 import { Link, redirect } from 'react-router-dom';
+import moment from 'moment';
+import Moment from 'react-moment';
 
 const Chat = () => {
     const [currentUsers, setCurrentUsers] = useState([]);
@@ -10,7 +12,7 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [selectedReceiverName, setSelectedReceiverName] = useState('');
     const [filteredMessages, setFilteredMessages] = useState([]);
-
+    // var start = moment().add(-6, 'm');
     const userData = JSON.parse(localStorage.getItem('user'));
     const sender = userData._id;
     let CurrentUser = userData.firstName;
@@ -84,7 +86,7 @@ const Chat = () => {
         <div className="container-fluid mt-5">
             <div className="row">
                 <div className="col-md-4 chat-sidebar">
-                    {/* Left chat box */}
+
                     <div className="chat-view">
                         <div className="innerDiv bg-info">
                             <h3 className="text">Welcome, {CurrentUser.charAt(0).toUpperCase() + CurrentUser.slice(1)}!</h3>
@@ -97,8 +99,9 @@ const Chat = () => {
                                     <li
                                         className={`list-group-item ${user._id === receiver ? 'active' : ''}`}
                                         key={index}
-                                        onClick={() => selectReceiver(user._id, `${user.firstName} ${user.lastName}`)}
-                                    >
+                                        onClick={() => selectReceiver(user._id, user.firstName + ' ' + user.lastName+' '+user?.thumbnailFile)}
+                                    >  <img className="card-image v-c-img" src={user?.thumbnailFile} width={"20px"} height={"20px"} alt="" />
+                                        <span className=''></span>
                                         {user.firstName.toUpperCase()} {user.lastName.toUpperCase()}
                                     </li>
                                 ))}
@@ -111,7 +114,6 @@ const Chat = () => {
                 </div>
                 <div></div>
                 <div className="col-md-8 rightbox">
-                    {/* Right chat view */}
                     <h2>{selectedReceiverName.charAt(0).toUpperCase() + selectedReceiverName.slice(1)}</h2>
                     <hr className=''></hr>
                     <div className="message-display" id='flex-container'>
@@ -120,15 +122,16 @@ const Chat = () => {
                                 key={index}
                                 className={`message ${message.sender === sender ? 'sender-message' : 'receiver-message'}`}>
                                 <strong>{message.sender === sender ? 'You' : selectedReceiverName.charAt(0).toUpperCase() + selectedReceiverName.slice(1)} : </strong>
-                                {message.textmassage}
+                                <strong><u>{message.textmassage} </u> </strong>
                                 {message.text}
+                                <Moment date={message.createdAt} format="hh:mm a" trim />
                             </div>
                         ))}
                     </div>
 
-                    <div className="input-container">
-                        <input type="text" className="form-control message-input"value={textmessage}onChange={(e) => setTextMessage(e.target.value)}
-                            placeholder="Enter your message" /><button type="submit" onClick={sendMassage} className="btn btn-outline-primary send-button"> Send
+                    <div className="input-container d-flex">
+                        <input type="text" className="form-control message-input" value={textmessage} onChange={(e) => setTextMessage(e.target.value)}
+                            placeholder="Enter your message" /><button type="submit" onClick={sendMassage} className="btn btn-primary send-button"> Send
                         </button>
                     </div>
                 </div>
