@@ -1,3 +1,4 @@
 export default{
-    baseurl:"http://localhost:3000"
+    baseUrl:"http://localhost:3000",
+    imageUrl:"http://localhost:3000/user/public/"
 }

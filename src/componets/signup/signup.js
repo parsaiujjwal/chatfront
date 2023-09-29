@@ -101,7 +101,7 @@ const Signup = () => {
             event.preventDefault();
 
             const formData = new FormData();
-            formData.append('file', thumbnailFile);
+            formData.append('thumbnailFile', thumbnailFile);
             formData.append('firstName', firstName);
             formData.append('lastName', lastName);
             formData.append('email', email);
@@ -144,7 +144,7 @@ const Signup = () => {
                                 </div>
                                 <div className="col-md-4">
                                     <label htmlFor="file" className="form-label">profile pic:</label>
-                                    <input type="file" name="thumbnail" className="form-control img" filename={thumbnailFile}
+                                    <input type="file" name="thumbnailFile" className="form-control img" filename={thumbnailFile}
                                         onChange={handleFileChange1} placeholder="click hear" />
                                 </div>
                             </div>

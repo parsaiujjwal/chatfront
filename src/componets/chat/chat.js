@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import "./chat.css"
 import { Link, redirect } from 'react-router-dom';
+import api from '../../webapi/api';
 import moment from 'moment';
 import Moment from 'react-moment';
 
@@ -12,7 +13,7 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [selectedReceiverName, setSelectedReceiverName] = useState('');
     const [filteredMessages, setFilteredMessages] = useState([]);
-    // var start = moment().add(-6, 'm');
+
     const userData = JSON.parse(localStorage.getItem('user'));
     const sender = userData._id;
     let CurrentUser = userData.firstName;
@@ -39,6 +40,7 @@ const Chat = () => {
             try {
                 const currentUsersResponse = await axios.post("http://localhost:3000/chat/count");
                 setCurrentUsers(currentUsersResponse.data.user);
+                console.log(currentUsers)
             } catch (err) {
                 console.log(err);
             }
@@ -89,19 +91,17 @@ const Chat = () => {
 
                     <div className="chat-view">
                         <div className="innerDiv bg-info">
-                            <h3 className="text">Welcome, {CurrentUser.charAt(0).toUpperCase() + CurrentUser.slice(1)}!</h3>
-                            <hr></hr>
+                            <h3 className="text">Welcome,<span className='textcolor'>{CurrentUser.charAt(0).toUpperCase() + CurrentUser.slice(1)}!</span></h3>
                             <br></br>
                             <hr className="text" />
-                            <h4 className="chathedding">Chat Box</h4>
-                            <ul className="list-group">
+                            <h4 className="chathedding">Chat <span className='textcolor'> Box </span></h4>
+                            <ul className="list-group userName">
                                 {currentUsers.map((user, index) => (
                                     <li
                                         className={`list-group-item ${user._id === receiver ? 'active' : ''}`}
                                         key={index}
-                                        onClick={() => selectReceiver(user._id, user.firstName + ' ' + user.lastName+' '+user?.thumbnailFile)}
-                                    >  <img className="card-image v-c-img" src={user?.thumbnailFile} width={"20px"} height={"20px"} alt="" />
-                                        <span className=''></span>
+                                        onClick={() => selectReceiver(  user._id, user.firstName + ' ' + user.lastName)}>
+                                        <img className="card-image v-c-img profilePic" src={`${api.imageUrl}` + user.thumbnailFile} width={"20px"} height={"20px"} alt="" /> 
                                         {user.firstName.toUpperCase()} {user.lastName.toUpperCase()}
                                     </li>
                                 ))}
@@ -124,7 +124,7 @@ const Chat = () => {
                                 <strong>{message.sender === sender ? 'You' : selectedReceiverName.charAt(0).toUpperCase() + selectedReceiverName.slice(1)} : </strong>
                                 <strong><u>{message.textmassage} </u> </strong>
                                 {message.text}
-                                <Moment date={message.createdAt} format="hh:mm a" trim />
+                                <Moment className='time' date={message.createdAt} format="hh:mm a" trim />
                             </div>
                         ))}
                     </div>
